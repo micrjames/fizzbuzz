@@ -1,19 +1,12 @@
-import { fizzbuzz } from "../fizzbuzz";
+import {sep_vals} from "../sepVals";
 
-describe("Fizzbuzz", () => {
+describe("Separated values", () => {
    let nums: number[] = [];
    let numsVals: number[] = [];
-   let numsOnThrees: number[];
-   let numsOnFives: number[];
-   let numsOnThreesAndFives: number[];
    let numsFiltered: number[];
    beforeAll(() => {
-	  nums = fizzbuzz(20, 3, 5);
-	  numsVals = [-100, -1, -1, 3, -1, 5, 6, -1, -1, 9, 10, -1, 12, -1, -1, -100, -1, -1, 18, -1];
-
-	  numsOnThrees = [3, 6, 9, 12, 18];
-	  numsOnFives = [5, 10];
-	  numsOnThreesAndFives = [3, 5, 6, 9, 12, 15, 18];
+	  nums = sep_vals(20, 3, 5);
+	  numsVals = [-100, 1, 2, -1, 4, -10, -1, 7, 8, -1, -10, 11, -1, 13, 14, -100, 16, 17, -1, 19];
    });
    describe("Listed", () => {
 	  test("Should not be empty.", () => {
@@ -22,20 +15,26 @@ describe("Fizzbuzz", () => {
 	  test("Should be equal to the array.", () => {
 		 expect(nums).toEqual(numsVals);
 	  });
-	  test("Should be fizz at indices divisible by three.", () => {
-		  numsFiltered = nums.filter(num => num >= 0 && num % 5 !== 0);
-		  expect(numsFiltered).toEqual(numsOnThrees);				 
+	  test("Should be -1 or -100 at indices divisible by three.", () => {
+		  numsFiltered = nums.filter((_, idx) => idx !== 0 && idx % 3 === 0);
+		  const numsFilteredBut15 = numsFiltered.filter(num => num !== -100);
+		  const isNumsFilteredBut15EveryNeg1 = numsFilteredBut15.every(num => num === -1);
+		  expect(isNumsFilteredBut15EveryNeg1).toBeTruthy();
+		  const whichIdxNumsFiltered15 = numsFiltered.indexOf(-100);
+		  expect(whichIdxNumsFiltered15).toBe(4);
 	  });
-	  test("Should be buzz at indices divisible by five.", () => {
-		  numsFiltered = nums.filter(num => num >= 0 && num % 3 !== 0);
-		  expect(numsFiltered).toEqual(numsOnFives);				 
+	  test("Should be -10 or -100 at indices divisible by five.", () => {
+		  numsFiltered = nums.filter((_, idx) => idx !== 0 && idx % 5 === 0);
+		  const numsFilteredBut15 = numsFiltered.filter(num => num !== -100);
+		  const isNumsFilteredBut15EveryNeg10 = numsFilteredBut15.every(num => num === -10);
+		  expect(isNumsFilteredBut15EveryNeg10).toBeTruthy();
+		  const whichIdxNumsFiltered15 = numsFiltered.indexOf(-100);
+		  expect(whichIdxNumsFiltered15).toBe(2);
 	  });
-	  test("Should be fizzbuzz at indices divisible by three and five.", () => {
-		  numsFiltered = nums.map((num, idx) => {
-			 if(idx === 15) return idx;
-			 else if(num !== 10) return num;
-		  }).filter(num => num > 0);
-		  expect(numsFiltered).toEqual(numsOnThreesAndFives);				 
+	  test("Should be -100 at indices divisible by three and five.", () => {
+		  numsFiltered = nums.filter((_, idx) => idx !== 0 && idx % 3 === 0 && idx % 5 === 0);
+		  const isNumsFilteredEvery100 = numsFiltered.every(num => num === -100);
+		  expect(isNumsFilteredEvery100).toBeTruthy();
 	  });
    });
 });
