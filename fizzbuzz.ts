@@ -8,4 +8,3 @@ export const fizzbuzz = (bounds: number): (number | string)[] => {
 		  (num  == -100 && idx !== 0 ? "fizzbuzz" : num))
 	);
 };
-

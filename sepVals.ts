@@ -1,4 +1,4 @@
-import { Range } from "../range/range";
+import { Range } from "./range/range";
 
 export const sep_vals = (bounds: number, ...sep_pts: number[]): number[] => {
    let nums: number[] = [];
